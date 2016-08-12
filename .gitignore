@@ -1,0 +1,12 @@
+.metadata
+*.swp
+.settings/
+
+# Eclipse Core
+.project
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# python compiled extension
+*.pyc
