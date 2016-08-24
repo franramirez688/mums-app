@@ -1,7 +1,11 @@
+'''
+    All the database models
+'''
+
 from sqlalchemy.ext.declarative.api import declarative_base
 from sqlalchemy.sql.sqltypes import Integer, String, Float
 from sqlalchemy.sql.schema import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 
 Base = declarative_base()
@@ -12,32 +16,32 @@ class PriceType(Base):
     __tablename__ = 'price_type'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String())
-    unit = Column(String())
+    name = Column(String, nullable=False)
+    unit = Column(String, nullable=False)
 
-    products = relationship("Product", back_populates="price_type")
+    products = relationship("Product",
+                            primaryjoin="PriceType.id==Product.price_type_id",
+                            backref=backref("product", cascade="all, delete-orphan"))
+
+
+class ProductType(Base):
+    """Product type, e.g., main dish, dessert """
+    __tablename__ = 'product_type'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True, nullable=False)
+
+    products = relationship("Product",
+                            primaryjoin="ProductType.id==Product.product_type_id",
+                            backref=backref("product", cascade="all, delete-orphan"))
 
 
 class Product(Base):
     __tablename__ = 'product'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    price = Column(Float(precision=2))
-    unit_for_price = Column(Integer)
+    name = Column(String, unique=True, nullable=False)
+    price = Column(Float(precision=2), nullable=False)
+    unit_for_price = Column(Integer, nullable=False)
     price_type_id = Column(Integer, ForeignKey('price_type.id'))
-
-    # Relationships to the different prices which could have any product
-    price_type = relationship("PriceType", uselist=False, back_populates="product")
-
-
-class MainDish(Base, Product):
-    __tablename__ = 'main_dish'
-
-
-class Dessert(Base, Product):
-    __tablename__ = 'dessert'
-
-
-class Drink(Base, Product):
-    __tablename__ = 'drink'
+    product_type_id = Column(Integer, ForeignKey('product_type.id'))
