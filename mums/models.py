@@ -1,43 +1,37 @@
-from sqlalchemy.ext.declarative.api import declarative_base
-from sqlalchemy.sql.sqltypes import Integer, String, Float
-from sqlalchemy.sql.schema import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from . import db
 
 
-Base = declarative_base()
-
-
-class PriceType(Base):
+class PriceType(db.Model):
     """Pricing type depending on the unit used, e.g. kg, gr, ud """
     __tablename__ = 'price_type'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String())
-    unit = Column(String())
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String())
+    unit = db.Column(db.String())
 
-    products = relationship("Product", back_populates="price_type")
+    products = db.relationship("Product", backref="price_type")
 
 
-class Product(Base):
+class Product(db.Model):
     __tablename__ = 'product'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    price = Column(Float(precision=2))
-    unit_for_price = Column(Integer)
-    price_type_id = Column(Integer, ForeignKey('price_type.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    price = db.Column(db.Float(precision=2))
+    unit_for_price = db.Column(db.Integer)
+    price_type_id = db.Column(db.Integer, db.ForeignKey('price_type.id'))
 
     # Relationships to the different prices which could have any product
-    price_type = relationship("PriceType", uselist=False, back_populates="product")
+    price_type = db.relationship("PriceType", backref="product")
 
 
-class MainDish(Base, Product):
+class MainDish(Product):
     __tablename__ = 'main_dish'
 
 
-class Dessert(Base, Product):
+class Dessert(Product):
     __tablename__ = 'dessert'
 
 
-class Drink(Base, Product):
+class Drink(Product):
     __tablename__ = 'drink'
