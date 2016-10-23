@@ -1,13 +1,13 @@
 """empty message
 
-Revision ID: 001_schema_creation
+Revision ID: 001_initial_schema
 Revises: None
 Create Date: 2016-10-23 13:35:36.865947
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '001_schema_creation'
+revision = '001_initial_schema'
 down_revision = None
 
 from alembic import op
