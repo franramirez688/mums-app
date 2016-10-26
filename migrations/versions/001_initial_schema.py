@@ -29,7 +29,7 @@ def upgrade():
     )
     op.create_table('products',
         sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('name', sa.String(length=64), nullable=True),
+        sa.Column('name', sa.Text(), nullable=True),
         sa.Column('price', sa.Float(precision=2), nullable=True),
         sa.Column('unit_for_price', sa.Integer(), nullable=True),
         sa.Column('price_type_id', sa.Integer(), nullable=True),
