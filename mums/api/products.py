@@ -3,17 +3,21 @@ from . import api
 from ..models import Product
 
 
-@api.route('/products/<int:id>')
+@api.route('/products/<int:id>', methods=['GET'])
 def get_product(id):
     product = Product.query.get_or_404(id)
     return jsonify(product.to_json())
 
 
-@api.route('/products/')
-def get_user_posts(id):
-    pass
+@api.route('/products/', methods=['GET'])
+def get_all_products():
+    ret = []
+    products = Product.query.all()
+    for product in products:
+        ret.append(product.to_json())
+    return jsonify(ret)
 
 
-@api.route('/products/offer')
-def get_user_followed_posts(id):
+@api.route('/products/offer', methods=['GET'])
+def get_offer(id):
     pass

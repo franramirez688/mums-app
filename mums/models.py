@@ -52,28 +52,6 @@ class ProductType(db.Model):
             'products': self.products
         }
 
-# price_types_data = [
-#     {'id': 1, 'name': 'grams', 'unit': 'gr'},
-#     {'id': 2, 'name': 'unit', 'unit': 'ud'},
-# ]
-#
-# product_types_data = [
-#     {'id': 1, 'name': 'main dish'},
-#     {'id': 2, 'name': 'dessert'},
-#     {'id': 3, 'name': 'drink'},
-# ]
-
-
-# Productos con un descuento porcentual si se
-# compran juntos, por ejemplo el 20% de
-# descuento si se compra un menú completo: plato
-# principal, bebida y postre.
-#
-# 2. Descuentos de 3x2. Te llevas 3 unidades del
-# mismo producto, y sólo pagas dos.
-
-
-
 
 class Product(db.Model):
     """All the products that Mum's web could market"""
